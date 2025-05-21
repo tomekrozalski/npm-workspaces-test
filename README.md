@@ -65,7 +65,7 @@ Same for other scripts like `build`, `lint` or `test:unit`.
 
 ## Example
 
-Clone the repository (`npm clone git@github.com:tomekrozalski/npm-workspaces-test.git`) and install packages in the root of the project (`cd npm-workspaces-test` and `npm install`). Run the first app, elephant: `npm run dev --workspace=elephant`.
+Clone the repository (`git clone git@github.com:tomekrozalski/npm-workspaces-test.git`) and install packages in the root of the project (`cd npm-workspaces-test` and `npm install`). Run the first app, elephant: `npm run dev --workspace=elephant`.
 On the `http://localhost:5173/` you will see 404 page, because in this app locale is required. Move to `http://localhost:5173/pl-pl`:
 
 <img width="1557" alt="image" src="https://github.com/user-attachments/assets/012b5124-6d6a-426c-928b-cf3ae607ba20" />
