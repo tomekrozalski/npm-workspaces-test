@@ -34,7 +34,7 @@ An example (single square brackets is required parameter in SvelteKit):
 │    │   │           ├── +page.server.ts
 │    │   │           └── +page.svelte
 │    │   └── +layout.svelte
-│    └── giragge (the app version without any parameter)
+│    └── giraffe (the app version without any parameter)
 │        ├── product
 │        │   ├── +page.server.ts
 │        │   └── +page.svelte
@@ -60,3 +60,35 @@ So in practice the `/apps` are just routing configuration for SvelteKit. Althoug
 
 There is almost none. In regular SvelteKit we run projects by `npm run dev`. With npm workflows we run `npm run dev --workspace=elephant` or `npm run dev --workspace=giraffe`. So, that is another advantage - we run a specific version.
 Same for other scripts like `build`, `lint` or `test:unit`.
+
+----
+
+## Example
+
+Clone the repository (`npm clone git@github.com:tomekrozalski/npm-workspaces-test.git`) and install packages in the root of the project (`cd npm-workspaces-test` and `npm install`). Run the first app, elephant: `npm run dev --workspace=elephant`.
+On the `http://localhost:5173/` you will see 404 page, because in this app locale is required. Move to `http://localhost:5173/pl-pl`:
+
+<img width="1557" alt="image" src="https://github.com/user-attachments/assets/012b5124-6d6a-426c-928b-cf3ae607ba20" />
+
+Notice that all links points to `/pl-pl/` pages.
+
+Now stop the server and run the second app: `npm run dev --workspace=giraffe`. The `http://localhost:5173/pl-pl` gives 404 page, because in this app locale is forbiden. Move to `http://localhost:5173/`:
+
+<img width="1557" alt="image" src="https://github.com/user-attachments/assets/441860f9-e5ef-4bcd-8e91-20ef96607e55" />
+
+Notice that all links points to `/` pages (without locale).
+
+Also take a look that we do not need to pass configuration between app version inside `/apps` folder and components inside `/packages`. We could just set a context inside app and then read it inside `/packages` files:
+
+```TypeScript
+import { getContext } from "svelte";
+import type { WorkspaceConfig } from "@pierce/client/types/WorkspaceConfig.d";
+
+export function createLinkHref(path: string) {
+  const { isoLocale, localizedPaths } = getContext(
+    "workspaceConfig"
+  ) as WorkspaceConfig;
+
+  return localizedPaths ? "/" + isoLocale + path : path;
+}
+```
